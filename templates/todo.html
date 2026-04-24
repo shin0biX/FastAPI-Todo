@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style>
+    .todo-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .todo-title { font-size: 1.8rem; font-weight: 700; color: var(--text); }
+    .todo-subtitle { color: var(--text-muted); margin-top: 0.25rem; }
+    .todo-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+    .table-wrap { overflow-x: auto; }
+    .todo-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .todo-table th {
+        background: #f8fafc;
+        font-weight: 600;
+        color: var(--text-muted);
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+    }
+    .todo-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: middle;
+        transition: background var(--transition);
+    }
+    .todo-table tr:hover td { background: #f1f5f9; }
+    .todo-table tr:last-child td { border-bottom: none; }
+    .status-dot {
+        display: inline-block; width: 8px; height: 8px;
+        border-radius: 50%; margin-right: 0.5rem; vertical-align: middle;
+    }
+    .status-pending { background: #f59e0b; }
+    .status-done { background: #10b981; }
+    .strike { text-decoration: line-through; color: var(--text-muted); }
+    .btn-edit {
+        padding: 0.4rem 0.9rem;
+        background: #e0e7ff;
+        color: var(--primary);
+        border: 1px solid #c7d2fe;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition);
+    }
+    .btn-edit:hover { background: var(--primary); color: #fff; }
+    .btn-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #fff;
+        padding: 0.7rem 1.4rem;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all var(--transition);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    }
+    .btn-add:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35); }
+</style>
+
+<div class="todo-header">
+    <div>
+        <h1 class="todo-title">Your Tasks</h1>
+        <p class="todo-subtitle">Track what needs to be done today</p>
+    </div>
+    <a href="add-todo-page" class="btn-add">+ Add New Todo</a>
+</div>
+
+<div class="todo-card">
+    <div class="table-wrap">
+        <table class="todo-table">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">#</th>
+                    <th>Task</th>
+                    <th style="width: 140px; text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for todo in todos %}
+                {% if todo.complete == False %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td><span class="status-dot status-pending"></span>{{todo.title}}</td>
+                    <td style="text-align: right;">
+                        <button onclick="window.location.href='edit-todo-page/{{todo.id}}'" type="button" class="btn-edit">Edit</button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr style="background: #f0fdf4;">
+                    <td>{{loop.index}}</td>
+                    <td><span class="status-dot status-done"></span><span class="strike">{{todo.title}}</span></td>
+                    <td style="text-align: right;">
+                        <button onclick="window.location.href='edit-todo-page/{{todo.id}}'" type="button" class="btn-edit">Edit</button>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

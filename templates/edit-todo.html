@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style>
+    .form-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 2rem;
+        max-width: 600px;
+        margin: 2rem auto;
+        animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .form-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-weight: 500; margin-bottom: 0.4rem; color: var(--text); font-size: 0.95rem; }
+    .form-input {
+        width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border);
+        border-radius: 10px; background: #fff; font-size: 0.95rem;
+        transition: all var(--transition); outline: none;
+    }
+    .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
+    textarea.form-input { min-height: 100px; resize: vertical; line-height: 1.5; }
+    .custom-select {
+        appearance: none;
+        background-image: url("image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2.5rem;
+    }
+    .checkbox-label { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: 500; }
+    .checkbox-label input { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
+    .form-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff;
+        border: none; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600;
+        cursor: pointer; transition: all var(--transition);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35); }
+    .btn-delete {
+        background: #fee2e2; color: #ef4444; border: 1px solid #fecaca;
+        padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 500;
+        cursor: pointer; transition: all var(--transition);
+    }
+    .btn-delete:hover { background: #ef4444; color: #fff; }
+    .btn-back {
+        background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0;
+        padding: 0.75rem 1.5rem; border-radius: 10px; text-decoration: none;
+        font-weight: 500; transition: all var(--transition);
+    }
+    .btn-back:hover { background: #16a34a; color: #fff; }
+</style>
+
+<div class="form-section">
+    <h2 class="form-title">Edit Task</h2>
+    <form id="editTodoForm">
+        <div class="form-group">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-input" name="title" value="{{todo.title}}" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-input" rows="4" required>{{todo.description}}</textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Priority</label>
+            <select name="priority" class="form-input custom-select">
+                <option value="1" {% if todo.priority == 1 %} selected {% endif %}>1 - Low</option>
+                <option value="2" {% if todo.priority == 2 %} selected {% endif %}>2 - Medium</option>
+                <option value="3" {% if todo.priority == 3 %} selected {% endif %}>3 - Normal</option>
+                <option value="4" {% if todo.priority == 4 %} selected {% endif %}>4 - High</option>
+                <option value="5" {% if todo.priority == 5 %} selected {% endif %}>5 - Critical</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="complete" {% if todo.complete %} checked {% endif %}>
+                Task is complete
+            </label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Update Task</button>
+            <button id="deleteButton" type="button" class="btn-delete">Delete</button>
+            <a href="/todos/todo-page" class="btn-back">Back</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

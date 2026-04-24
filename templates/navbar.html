@@ -1,0 +1,184 @@
+
+<header class="app-navbar">
+    <div class="navbar-inner">
+        <a href="/" class="navbar-brand">TodoApp</a>
+
+        <button class="nav-toggler" id="navToggle" aria-label="Toggle navigation">
+            <span class="toggler-line"></span>
+            <span class="toggler-line"></span>
+            <span class="toggler-line"></span>
+        </button>
+
+        <nav class="nav-menu" id="navbarNav">
+            {% if user %}
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="/todos/todo-page" class="nav-link">Home</a>
+                </li>
+            </ul>
+            {% endif %}
+
+            <ul class="nav-links nav-end">
+                {% if user %}
+                <li class="nav-item">
+                    <button type="button" class="btn-logout" onclick="logout()">Logout</button>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<style>
+    .app-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        transition: box-shadow var(--transition);
+    }
+
+    .navbar-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+        letter-spacing: -0.5px;
+        transition: opacity var(--transition);
+    }
+    .navbar-brand:hover { opacity: 0.85; }
+
+    .nav-toggler {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+    .toggler-line {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--text);
+        margin: 4px 0;
+        border-radius: 2px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .nav-toggler.active .toggler-line:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggler.active .toggler-line:nth-child(2) { opacity: 0; }
+    .nav-toggler.active .toggler-line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 1.75rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        position: relative;
+        transition: color var(--transition);
+    }
+    .nav-link:hover { color: var(--primary); }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .btn-logout {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.55rem 1.3rem;
+        border-radius: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition);
+    }
+    .btn-logout:hover {
+        background: #fee2e2;
+        color: #ef4444;
+        border-color: #fecaca;
+        transform: translateY(-1px);
+    }
+
+    .nav-end { margin-left: auto; }
+
+    @media (max-width: 768px) {
+        .nav-toggler { display: block; }
+        .nav-menu {
+            position: absolute;
+            top: 72px;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            flex-direction: column;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .nav-links { flex-direction: column; width: 100%; text-align: center; gap: 1.25rem; }
+        .nav-end { margin-left: 0; margin-top: 0.75rem; }
+        .btn-logout { width: 100%; }
+    }
+</style>
+
+<script>
+    // Lightweight vanilla mobile toggle (replaces Bootstrap's collapse)
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggle = document.getElementById('navToggle');
+        const menu = document.getElementById('navbarNav');
+        if (toggle && menu) {
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                menu.classList.toggle('open');
+            });
+        }
+    });
+</script>

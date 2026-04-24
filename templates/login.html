@@ -1,0 +1,102 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style>
+    .auth-wrapper {
+        min-height: calc(100vh - 85px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem;
+    }
+    .auth-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        width: 100%;
+        max-width: 420px;
+        overflow: hidden;
+    }
+    .auth-header {
+        padding: 1.75rem 1.5rem 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text);
+    }
+    .auth-body { padding: 1.5rem; }
+    .auth-footer {
+        padding: 1rem 1.5rem 1.5rem;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        background: #f1f5f9;
+    }
+    .auth-footer a {
+        color: var(--primary);
+        font-weight: 500;
+        text-decoration: none;
+    }
+    .auth-footer a:hover { text-decoration: underline; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+        color: var(--text);
+    }
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        font-size: 0.95rem;
+        transition: all var(--transition);
+        outline: none;
+    }
+    .form-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition);
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+</style>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">Welcome Back</div>
+        <div class="auth-body">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" name="username" autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" name="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+        <div class="auth-footer">
+            Don't have an account? <a href="/auth/register-page">Register</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
